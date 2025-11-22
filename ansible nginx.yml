@@ -1,0 +1,61 @@
+- name: webpage
+  hosts: web
+  become: yes
+  tasks:
+    - name: removing the existing content
+      file:
+        path: /usr/share/nginx/html/index.html
+        state: absent
+    - name: create new file
+      file:
+        path: /usr/share/nginx/html/index.html
+        state: touch
+    - name: content
+      copy:
+        dest: /usr/share/nginx/html/index.html
+        content: |
+          <html>
+          <head>
+            <title>Ansible Web Page</title>
+            <style>
+            body {
+                background-color: #1e1e2f;  /* Dark blue background */
+                color: #ffffff;             /* White text */
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 40px;
+              }
+              h1 {
+                color: #00eaff;  /* Cyan heading */
+              }
+              p, li {
+                font-size: 18px;
+                line-height: 1.6;
+              }
+              ul {
+                list-style-type: square;
+                display: inline-block;
+                 text-align: left;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Welcome to Ansible Automation</h1>
+
+            <p>Ansible is a powerful IT automation tool used for:</p>
+            <ul>
+              <li>Configuration Management</li>
+              <li>Server Provisioning</li>
+              <li>Application Deployment</li>
+              <li>Orchestration</li>
+              <li>Continuous Delivery</li>
+            </ul>
+
+            <p>With simple YAML playbooks, Ansible lets you manage hundreds of servers effortlessly.</p>
+          </body>
+          </html>
+
+     - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
