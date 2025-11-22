@@ -1,0 +1,6 @@
+PORT 80 already in use
+
+Check if another service is using port 80:
+
+command: sudo lsof -i :80
+command: kill -9 <PID>
